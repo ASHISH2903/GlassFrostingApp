@@ -49,7 +49,7 @@ public class MainActivity extends Activity {
     private static final int REQUEST_CONNECT_DEVICE = 1;
     private static final int REQUEST_ENABLE_BT = 2;
     private EditText mOutEditText;
-    private Button mSendButton;
+    private Button mSendButton,glass_clear,glass_resume,glass_stop;
 
     // Name of the connected device
     private String mConnectedDeviceName = null;
@@ -79,11 +79,14 @@ public class MainActivity extends Activity {
         mRecyclerView = (RecyclerView) findViewById(R.id.my_recycler_view);
         mRecyclerView.setHasFixedSize(true);
         mLayoutManager = new LinearLayoutManager(this);
+        mLayoutManager.setReverseLayout(true);
+        mLayoutManager.setStackFromEnd(true);
         mRecyclerView.setLayoutManager(mLayoutManager);
         mAdapter = new MessageAdapter(getBaseContext(), messageList);
         mRecyclerView.setAdapter(mAdapter);
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());
         mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
+        glass_clear = (Button) findViewById(R.id.glass_clear);
 
         glass_start = (Button) findViewById(R.id.glass_start);
         glass_reset = (Button) findViewById(R.id.glass_reset);
@@ -91,6 +94,9 @@ public class MainActivity extends Activity {
 
         edt_txt_height = (EditText) findViewById(R.id.edt_txt_height);
         edt_txt_width = (EditText) findViewById(R.id.edt_txt_width);
+
+        glass_resume = (Button) findViewById(R.id.glass_resume);
+        glass_stop = (Button) findViewById(R.id.glass_stop);
 
         // If the adapter is null, then Bluetooth is not supported
         if (mBluetoothAdapter == null) {
@@ -119,7 +125,7 @@ public class MainActivity extends Activity {
 
                 else
                 {
-                    String message = "H," + height + ";W," + width +"@";
+                    String message = "H," + height + ";W," + width +"\r";
                     byte[] bytes = message.getBytes(Charset.defaultCharset());
                     mChatService.write(bytes);
                     edt_txt_width.setText("");
@@ -131,7 +137,7 @@ public class MainActivity extends Activity {
         glass_start.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String message = "START@";
+                String message = "START\r";
                 byte[] bytes = message.getBytes(Charset.defaultCharset());
                 mChatService.write(bytes);
             }
@@ -140,9 +146,35 @@ public class MainActivity extends Activity {
         glass_reset.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String message = "RESET@";
+                String message = "RESET\r";
                 byte[] bytes = message.getBytes(Charset.defaultCharset());
                 mChatService.write(bytes);
+            }
+        });
+
+        glass_resume.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String message = "RESUME\r";
+                byte[] bytes = message.getBytes(Charset.defaultCharset());
+                mChatService.write(bytes);
+            }
+        });
+
+        glass_stop.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String message = "STOP\r";
+                byte[] bytes = message.getBytes(Charset.defaultCharset());
+                mChatService.write(bytes);
+            }
+        });
+
+        glass_clear.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                messageList.clear();
+                mAdapter.notifyDataSetChanged();
             }
         });
     }
@@ -168,6 +200,7 @@ public class MainActivity extends Activity {
         }
     }
 
+    // not required
     private void setupChat() {
         mOutEditText = (EditText) findViewById(R.id.edit_text_out);
         mOutEditText.setOnEditorActionListener(mWriteListener);
@@ -262,7 +295,9 @@ public class MainActivity extends Activity {
                     byte[] readBuf = (byte[]) msg.obj;
                     // construct a string from the valid bytes in the buffer
                     String readMessage = new String(readBuf, 0, msg.arg1);
+                    readMessage+="\n";
                     mAdapter.notifyDataSetChanged();
+                    mRecyclerView.smoothScrollToPosition(mAdapter.getItemCount());
                     messageList.add(new androidRecyclerView.Message(counter++, readMessage, mConnectedDeviceName));
                     break;
                 case MESSAGE_DEVICE_NAME:

@@ -12,6 +12,7 @@ import android.os.Message;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.io.UnsupportedEncodingException;
 import java.util.UUID;
 
 /**
@@ -359,17 +360,47 @@ public class BluetoothChatService {
         }
 
         public void run() {
-            byte[] buffer = new byte[1024];
+            byte[] readBuffer = new byte[1024];
+            int readBufferPosition = 0;
             int bytes;
             // Keep listening to the InputStream while connected
             while (true) {
-                try {
+                /*try {
                     // Read from the InputStream
                     bytes = mmInStream.read(buffer);
                     // Send the obtained bytes to the UI Activity
                     mHandler.obtainMessage(MainActivity.MESSAGE_READ, bytes, -1, buffer)
-                            .sendToTarget();
-                } catch (IOException e) {
+                            .sendToTarget();*/
+                try{
+                    int bytesAvailable = mmInStream.available();
+                    if(bytesAvailable > 0)
+                    {
+                        byte[] packetBytes = new byte[bytesAvailable];
+                        mmInStream.read(packetBytes);
+                        for(int i=0;i<bytesAvailable;i++)
+                        {
+                            byte b = packetBytes[i];
+                            // \n = 10
+                            // @ = 64
+                            if(b == 64)
+                            {
+                                byte[] encodedBytes = new byte[readBufferPosition];
+                                System.arraycopy(readBuffer, 0, encodedBytes, 0, encodedBytes.length);
+                                final String data = new String(encodedBytes, "US-ASCII");
+                                readBufferPosition = 0;
+                                mHandler.obtainMessage(MainActivity.MESSAGE_READ, data.getBytes().length, -1, readBuffer)
+                                        .sendToTarget();
+                            }
+                            else
+                            {
+                                readBuffer[readBufferPosition++] = b;
+                            }
+                        }
+                    }
+                } catch (UnsupportedEncodingException e) {
+                    e.printStackTrace();
+                }
+                catch (IOException e) {
                     connectionLost();
                     break;
                 }
