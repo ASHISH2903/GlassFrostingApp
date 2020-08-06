@@ -7,13 +7,12 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="GLASS FROSTING APP"
-        android:textStyle="bold"
-        android:textSize="25dp"
         android:layout_marginTop="10dp"
         android:gravity="center"
+        android:text="GLASS FROSTING APP"
         android:textColor="@color/colorAccentDark"
-        />
+        android:textSize="25dp"
+        android:textStyle="bold" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -31,7 +30,7 @@
             style="@style/BlueButton"
             android:text="CONNECT"
             android:onClick="connect"
-            android:textSize="10dp" />
+            android:textSize="15dp" />
 
         <View
             android:layout_width="7dp"
@@ -45,7 +44,7 @@
             android:onClick="discoverable"
             android:text="DISCOVERABLE"
             style="@style/BlueButton"
-            android:textSize="10dp"/>
+            android:textSize="15dp"/>
         <View
             android:layout_width="7dp"
             android:layout_height="1dp"/>
@@ -73,12 +72,12 @@
             android:orientation="horizontal">
 
             <TextView
-                android:layout_width="60dp"
+                android:layout_width="65dp"
                 android:layout_height="wrap_content"
-                android:text="Height:"
-                android:textStyle="bold"
                 android:gravity="center"
-                android:textColor="@color/colorPrimary"/>
+                android:text="Height:"
+                android:textColor="@android:color/black"
+                android:textStyle="bold" />
             <View
                 android:layout_width="1dp"
                 android:layout_height="1dp"/>
@@ -99,7 +98,7 @@
                 android:text="Width:"
                 android:textStyle="bold"
                 android:gravity="center"
-                android:textColor="@color/colorPrimary"/>
+                android:textColor="@android:color/black"/>
             <View
                 android:layout_width="1dp"
                 android:layout_height="1dp"/>
@@ -120,7 +119,7 @@
                 android:layout_height="wrap_content"
                 android:text="SEND"
                 android:layout_marginLeft="10dp"
-                android:textSize="10dp"
+                android:textSize="15dp"
                 style="@style/BlueButton"
                 android:layout_gravity="center"/>
 
@@ -142,7 +141,7 @@
                 android:layout_weight="0.25"
                 style="@style/BlueButton"
                 android:text="START"
-                android:textSize="10dp" />
+                android:textSize="15dp" />
 
             <View
                 android:layout_width="7dp"
@@ -155,7 +154,10 @@
                 android:layout_weight="0.25"
                 android:text="STOP"
                 style="@style/BlueButton"
-                android:textSize="10dp"/>
+                android:textSize="15dp"/>
+            <View
+                android:layout_width="7dp"
+                android:layout_height="1dp"/>
 
             <View
                 android:layout_width="7dp"
@@ -167,18 +169,20 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginTop="5dp"
+            android:layout_marginTop="20dp"
             android:orientation="horizontal"
+            android:layout_margin="20dp"
             android:gravity="center">
 
             <Button
                 android:id="@+id/glass_reset"
+                style="@style/BlueButton"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="0.25"
                 android:text="RESET"
-                style="@style/BlueButton"
-                android:textSize="10dp"/>
+                android:textSize="15dp" />
+
             <View
                 android:layout_width="7dp"
                 android:layout_height="1dp"/>
@@ -190,8 +194,7 @@
                 android:layout_weight="0.25"
                 android:text="RESUME"
                 style="@style/BlueButton"
-                android:textSize="10dp"/>
-
+                android:textSize="15dp"/>
             <View
                 android:layout_width="7dp"
                 android:layout_height="1dp"/>
@@ -203,7 +206,7 @@
                 android:layout_weight="0.25"
                 android:text="CLEAR"
                 style="@style/BlueButton"
-                android:textSize="10dp"/>
+                android:textSize="15dp"/>
 
             <View
                 android:layout_width="7dp"
@@ -224,8 +227,8 @@
                 android:text="STATUS"
                 android:textStyle="bold"
                 android:textSize="15dp"
-                android:gravity="center"
-                android:textColor="@color/colorPrimaryDark" />
+                android:textColor="@android:color/black"
+                android:gravity="center" />
 
         </LinearLayout>
 
@@ -238,7 +241,7 @@
         android:layout_weight="1"
         android:paddingLeft="10dp"
         android:paddingRight="10dp"
-        android:scrollbars="vertical"/>
+        android:scrollbars="vertical" />
 
     <LinearLayout
         android:layout_width="fill_parent"
@@ -266,9 +269,9 @@
         android:text="POWERED BY TSPL"
         android:layout_below="@+id/Linear1"
         android:textSize="20dp"
+        android:textStyle="bold"
         android:textColor="@color/colorAccentDark"
         android:gravity="end"
-        android:textStyle="bold"
         android:layout_marginRight="20dp"
         android:layout_marginTop="10dp" />
 

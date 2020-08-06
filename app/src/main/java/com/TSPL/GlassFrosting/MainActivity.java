@@ -125,7 +125,7 @@ public class MainActivity extends Activity {
 
                 else
                 {
-                    String message = "H," + height + ";W," + width +"\r";
+                    String message = "H," + height + ":W," + width +":\r\n";
                     byte[] bytes = message.getBytes(Charset.defaultCharset());
                     mChatService.write(bytes);
                     edt_txt_width.setText("");
@@ -137,7 +137,7 @@ public class MainActivity extends Activity {
         glass_start.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String message = "START\r";
+                String message = "START\r\n";
                 byte[] bytes = message.getBytes(Charset.defaultCharset());
                 mChatService.write(bytes);
             }
@@ -146,7 +146,7 @@ public class MainActivity extends Activity {
         glass_reset.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String message = "RESET\r";
+                String message = "RESET\r\n";
                 byte[] bytes = message.getBytes(Charset.defaultCharset());
                 mChatService.write(bytes);
             }
@@ -155,7 +155,7 @@ public class MainActivity extends Activity {
         glass_resume.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
-                String message = "RESUME\r";
+                String message = "RESUME\r\n";
                 byte[] bytes = message.getBytes(Charset.defaultCharset());
                 mChatService.write(bytes);
             }
@@ -164,7 +164,7 @@ public class MainActivity extends Activity {
         glass_stop.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
-                String message = "STOP\r";
+                String message = "STOP\r\n";
                 byte[] bytes = message.getBytes(Charset.defaultCharset());
                 mChatService.write(bytes);
             }

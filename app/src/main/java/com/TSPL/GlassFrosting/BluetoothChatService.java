@@ -8,6 +8,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.util.Log;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -382,7 +383,7 @@ public class BluetoothChatService {
                             byte b = packetBytes[i];
                             // \n = 10
                             // @ = 64
-                            if(b == 64)
+                            if(b == 10)
                             {
                                 byte[] encodedBytes = new byte[readBufferPosition];
                                 System.arraycopy(readBuffer, 0, encodedBytes, 0, encodedBytes.length);
@@ -415,6 +416,7 @@ public class BluetoothChatService {
         public void write(byte[] buffer) {
             try {
                 mmOutStream.write(buffer);
+                Log.d("WRITE : ",buffer.toString());
                 // Share the sent message back to the UI Activity
                 /*mHandler.obtainMessage(MainActivity.MESSAGE_WRITE, -1, -1, buffer)
                         .sendToTarget();*/
