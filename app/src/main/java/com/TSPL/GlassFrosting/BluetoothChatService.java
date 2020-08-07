@@ -198,9 +198,17 @@ public class BluetoothChatService {
     private void connectionFailed() {
         setState(STATE_LISTEN);
         // Send a failure message back to the Activity
-        Message msg = mHandler.obtainMessage(MainActivity.MESSAGE_TOAST);
+        Message msg = mHandler.obtainMessage(MainActivity.CONNECTION_FAIL);
         Bundle bundle = new Bundle();
         bundle.putString(MainActivity.TOAST, "Unable to connect device");
+        msg.setData(bundle);
+        mHandler.sendMessage(msg);
+    }
+
+    private void connectionSuccess() {
+        Message msg = mHandler.obtainMessage(MainActivity.CONNECTION_SUCCESS);
+        Bundle bundle = new Bundle();
+        bundle.putString(MainActivity.TOAST, "Connected Successfully");
         msg.setData(bundle);
         mHandler.sendMessage(msg);
     }
@@ -310,6 +318,7 @@ public class BluetoothChatService {
                 // This is a blocking call and will only return on a
                 // successful connection or an exception
                 mmSocket.connect();
+                connectionSuccess();
             } catch (IOException e) {
                 connectionFailed();
                 // Close the socket

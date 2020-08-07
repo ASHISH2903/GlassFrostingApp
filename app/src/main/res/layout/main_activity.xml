@@ -14,6 +14,19 @@
         android:textSize="25dp"
         android:textStyle="bold" />
 
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/status_connected"
+        android:layout_marginTop="10dp"
+        android:gravity="end"
+        android:text="Not Connected"
+        android:paddingRight="20dp"
+        android:textColor="@android:color/black"
+        android:textSize="15dp"
+        android:textStyle="bold" />
+
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -119,6 +132,7 @@
                 android:layout_height="wrap_content"
                 android:text="SEND"
                 android:layout_marginLeft="10dp"
+                android:enabled="true"
                 android:textSize="15dp"
                 style="@style/BlueButton"
                 android:layout_gravity="center"/>
@@ -140,6 +154,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="0.25"
                 style="@style/BlueButton"
+                android:enabled="true"
                 android:text="START"
                 android:textSize="15dp" />
 
@@ -153,6 +168,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="0.25"
                 android:text="STOP"
+                android:enabled="false"
                 style="@style/BlueButton"
                 android:textSize="15dp"/>
             <View
@@ -181,6 +197,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="0.25"
                 android:text="RESET"
+                android:enabled="true"
                 android:textSize="15dp" />
 
             <View
@@ -193,6 +210,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="0.25"
                 android:text="RESUME"
+                android:enabled="true"
                 style="@style/BlueButton"
                 android:textSize="15dp"/>
             <View
@@ -205,6 +223,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="0.25"
                 android:text="CLEAR"
+                android:enabled="true"
                 style="@style/BlueButton"
                 android:textSize="15dp"/>
 

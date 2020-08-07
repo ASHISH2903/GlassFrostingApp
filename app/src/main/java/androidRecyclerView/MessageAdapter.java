@@ -60,7 +60,7 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ViewHold
         holder.mTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                remove(position);
+                //remove(position);
             }
         });
     }

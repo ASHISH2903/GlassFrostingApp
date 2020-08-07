@@ -1,9 +1,11 @@
 package com.TSPL.GlassFrosting;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -36,6 +38,8 @@ public class MainActivity extends Activity {
     public static final int MESSAGE_WRITE = 3;
     public static final int MESSAGE_DEVICE_NAME = 4;
     public static final int MESSAGE_TOAST = 5;
+    public static final int CONNECTION_FAIL = 6;
+    public static final int CONNECTION_SUCCESS = 7;
 
     private Button glass_start,glass_reset,send_height_width;
     private EditText edt_txt_height,edt_txt_width;
@@ -50,6 +54,7 @@ public class MainActivity extends Activity {
     private static final int REQUEST_ENABLE_BT = 2;
     private EditText mOutEditText;
     private Button mSendButton,glass_clear,glass_resume,glass_stop;
+    private TextView scan_connect;
 
     // Name of the connected device
     private String mConnectedDeviceName = null;
@@ -98,6 +103,7 @@ public class MainActivity extends Activity {
         glass_resume = (Button) findViewById(R.id.glass_resume);
         glass_stop = (Button) findViewById(R.id.glass_stop);
 
+        scan_connect = (TextView) findViewById(R.id.status_connected);
         // If the adapter is null, then Bluetooth is not supported
         if (mBluetoothAdapter == null) {
             Toast.makeText(this, "Bluetooth is not available", Toast.LENGTH_LONG).show();
@@ -131,6 +137,7 @@ public class MainActivity extends Activity {
                     edt_txt_width.setText("");
                     edt_txt_height.setText("");
                 }
+                send_height_width.setEnabled(false);
             }
         });
 
@@ -140,6 +147,11 @@ public class MainActivity extends Activity {
                 String message = "START\r\n";
                 byte[] bytes = message.getBytes(Charset.defaultCharset());
                 mChatService.write(bytes);
+                send_height_width.setEnabled(false);
+                glass_reset.setEnabled(false);
+                glass_start.setEnabled(false);
+                glass_resume.setEnabled(false);
+                glass_stop.setEnabled(true);
             }
         });
 
@@ -149,6 +161,7 @@ public class MainActivity extends Activity {
                 String message = "RESET\r\n";
                 byte[] bytes = message.getBytes(Charset.defaultCharset());
                 mChatService.write(bytes);
+
             }
         });
 
@@ -158,6 +171,11 @@ public class MainActivity extends Activity {
                 String message = "RESUME\r\n";
                 byte[] bytes = message.getBytes(Charset.defaultCharset());
                 mChatService.write(bytes);
+                send_height_width.setEnabled(false);
+                glass_reset.setEnabled(false);
+                glass_start.setEnabled(false);
+                glass_resume.setEnabled(false);
+                glass_stop.setEnabled(true);
             }
         });
 
@@ -167,6 +185,11 @@ public class MainActivity extends Activity {
                 String message = "STOP\r\n";
                 byte[] bytes = message.getBytes(Charset.defaultCharset());
                 mChatService.write(bytes);
+                glass_stop.setEnabled(false);
+                glass_start.setEnabled(false);
+                send_height_width.setEnabled(false);
+                glass_reset.setEnabled(true);
+                glass_resume.setEnabled(true);
             }
         });
 
@@ -185,6 +208,7 @@ public class MainActivity extends Activity {
         if (!mBluetoothAdapter.isEnabled()) {
             Intent enableIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
             startActivityForResult(enableIntent, REQUEST_ENABLE_BT);
+            glass_stop.setEnabled(false);
         } else {
             if (mChatService == null) setupChat();
         }
@@ -281,6 +305,7 @@ public class MainActivity extends Activity {
 
     // The Handler that gets information back from the BluetoothChatService
     private final Handler mHandler = new Handler() {
+        @SuppressLint("HandlerLeak")
         @Override
         public void handleMessage(Message msg) {
             switch (msg.what) {
@@ -295,6 +320,14 @@ public class MainActivity extends Activity {
                     byte[] readBuf = (byte[]) msg.obj;
                     // construct a string from the valid bytes in the buffer
                     String readMessage = new String(readBuf, 0, msg.arg1);
+                    if(readMessage.compareToIgnoreCase("FINISH")==0 || readMessage.compareToIgnoreCase("FINISH\r\n")==0)
+                    {
+                        send_height_width.setEnabled(true);
+                        glass_start.setEnabled(true);
+                        messageList.clear();
+                        mAdapter.notifyDataSetChanged();
+                        break;
+                    }
                     readMessage+="\n";
                     mAdapter.notifyDataSetChanged();
                     mRecyclerView.smoothScrollToPosition(mAdapter.getItemCount());
@@ -309,6 +342,16 @@ public class MainActivity extends Activity {
                 case MESSAGE_TOAST:
                     Toast.makeText(getApplicationContext(), msg.getData().getString(TOAST),
                             Toast.LENGTH_SHORT).show();
+                    break;
+                case CONNECTION_FAIL:
+                    scan_connect.setText("Not Connected");
+                    scan_connect.setTextColor(Color.BLACK);
+                    Toast.makeText(getApplicationContext(), msg.getData().getString(TOAST),
+                            Toast.LENGTH_SHORT).show();
+                    break;
+                case CONNECTION_SUCCESS:
+                    scan_connect.setText("Connected");
+                    scan_connect.setTextColor(Color.GREEN);
                     break;
             }
         }
