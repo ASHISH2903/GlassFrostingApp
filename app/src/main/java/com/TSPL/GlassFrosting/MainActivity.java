@@ -42,7 +42,7 @@ public class MainActivity extends Activity {
     public static final int CONNECTION_SUCCESS = 7;
 
     private Button glass_start,glass_reset,send_height_width;
-    private EditText edt_txt_height,edt_txt_width;
+    private EditText edt_txt_height,edt_txt_width,edt_txt_buzzer_time;
 
 
     // Key names received from the BluetoothChatService Handler
@@ -53,7 +53,7 @@ public class MainActivity extends Activity {
     private static final int REQUEST_CONNECT_DEVICE = 1;
     private static final int REQUEST_ENABLE_BT = 2;
     private EditText mOutEditText;
-    private Button mSendButton,glass_clear,glass_resume,glass_stop;
+    private Button mSendButton,glass_clear,glass_resume,glass_stop,send_buzzer_time;
     private TextView scan_connect;
 
     // Name of the connected device
@@ -103,6 +103,9 @@ public class MainActivity extends Activity {
         glass_resume = (Button) findViewById(R.id.glass_resume);
         glass_stop = (Button) findViewById(R.id.glass_stop);
 
+        edt_txt_buzzer_time = (EditText) findViewById(R.id.edt_txt_buzzer_time);
+        send_buzzer_time = (Button) findViewById(R.id.send_buzzer_time);
+
         scan_connect = (TextView) findViewById(R.id.status_connected);
         // If the adapter is null, then Bluetooth is not supported
         if (mBluetoothAdapter == null) {
@@ -137,7 +140,6 @@ public class MainActivity extends Activity {
                     edt_txt_width.setText("");
                     edt_txt_height.setText("");
                 }
-                send_height_width.setEnabled(false);
             }
         });
 
@@ -147,11 +149,25 @@ public class MainActivity extends Activity {
                 String message = "START\r\n";
                 byte[] bytes = message.getBytes(Charset.defaultCharset());
                 mChatService.write(bytes);
-                send_height_width.setEnabled(false);
-                glass_reset.setEnabled(false);
-                glass_start.setEnabled(false);
-                glass_resume.setEnabled(false);
                 glass_stop.setEnabled(true);
+                glass_stop.setTextColor(Color.YELLOW);
+                glass_stop.setBackgroundDrawable(getResources().getDrawable(R.drawable.buttonshape));
+
+                send_height_width.setEnabled(false);
+                send_height_width.setTextColor(Color.BLACK);
+                send_height_width.setBackgroundDrawable(getResources().getDrawable(R.drawable.off));
+
+                glass_reset.setEnabled(false);
+                glass_reset.setTextColor(Color.BLACK);
+                glass_reset.setBackgroundDrawable(getResources().getDrawable(R.drawable.off));
+
+                glass_start.setEnabled(false);
+                glass_start.setTextColor(Color.BLACK);
+                glass_start.setBackgroundDrawable(getResources().getDrawable(R.drawable.off));
+
+                glass_resume.setEnabled(false);
+                glass_resume.setTextColor(Color.BLACK);
+                glass_resume.setBackgroundDrawable(getResources().getDrawable(R.drawable.off));
             }
         });
 
@@ -162,6 +178,17 @@ public class MainActivity extends Activity {
                 byte[] bytes = message.getBytes(Charset.defaultCharset());
                 mChatService.write(bytes);
 
+                send_height_width.setEnabled(true);
+                send_height_width.setTextColor(Color.BLACK);
+                send_height_width.setBackgroundDrawable(getResources().getDrawable(R.drawable.on));
+
+                glass_start.setEnabled(true);
+                glass_start.setTextColor(Color.BLACK);
+                glass_start.setBackgroundDrawable(getResources().getDrawable(R.drawable.on));
+
+                glass_resume.setEnabled(false);
+                glass_resume.setTextColor(Color.BLACK);
+                glass_resume.setBackgroundDrawable(getResources().getDrawable(R.drawable.off));
             }
         });
 
@@ -171,11 +198,27 @@ public class MainActivity extends Activity {
                 String message = "RESUME\r\n";
                 byte[] bytes = message.getBytes(Charset.defaultCharset());
                 mChatService.write(bytes);
-                send_height_width.setEnabled(false);
-                glass_reset.setEnabled(false);
-                glass_start.setEnabled(false);
-                glass_resume.setEnabled(false);
+
                 glass_stop.setEnabled(true);
+                glass_stop.setTextColor(Color.YELLOW);
+                glass_stop.setBackgroundDrawable(getResources().getDrawable(R.drawable.buttonshape));
+
+                send_height_width.setEnabled(false);
+                send_height_width.setTextColor(Color.BLACK);
+                send_height_width.setBackgroundDrawable(getResources().getDrawable(R.drawable.off));
+
+                glass_reset.setEnabled(false);
+                glass_reset.setTextColor(Color.BLACK);
+                glass_reset.setBackgroundDrawable(getResources().getDrawable(R.drawable.off));
+
+                glass_start.setEnabled(false);
+                glass_start.setTextColor(Color.BLACK);
+                glass_start.setBackgroundDrawable(getResources().getDrawable(R.drawable.off));
+
+                glass_resume.setEnabled(false);
+                glass_resume.setTextColor(Color.BLACK);
+                glass_resume.setBackgroundDrawable(getResources().getDrawable(R.drawable.off));
+
             }
         });
 
@@ -185,11 +228,27 @@ public class MainActivity extends Activity {
                 String message = "STOP\r\n";
                 byte[] bytes = message.getBytes(Charset.defaultCharset());
                 mChatService.write(bytes);
-                glass_stop.setEnabled(false);
-                glass_start.setEnabled(false);
-                send_height_width.setEnabled(false);
+
                 glass_reset.setEnabled(true);
+                glass_reset.setTextColor(Color.BLACK);
+                glass_reset.setBackgroundDrawable(getResources().getDrawable(R.drawable.on));
+
                 glass_resume.setEnabled(true);
+                glass_resume.setTextColor(Color.BLACK);
+                glass_resume.setBackgroundDrawable(getResources().getDrawable(R.drawable.on));
+
+                glass_stop.setEnabled(false);
+                glass_stop.setTextColor(Color.YELLOW);
+                glass_stop.setBackgroundDrawable(getResources().getDrawable(R.drawable.buttonshape1));
+
+                glass_start.setEnabled(false);
+                glass_start.setTextColor(Color.BLACK);
+                glass_start.setBackgroundDrawable(getResources().getDrawable(R.drawable.off));
+
+                send_height_width.setEnabled(false);
+                send_height_width.setTextColor(Color.BLACK);
+                send_height_width.setBackgroundDrawable(getResources().getDrawable(R.drawable.off));
+
             }
         });
 
@@ -198,6 +257,36 @@ public class MainActivity extends Activity {
             public void onClick(View view) {
                 messageList.clear();
                 mAdapter.notifyDataSetChanged();
+            }
+        });
+
+        send_buzzer_time.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String buzzer_time;
+                buzzer_time = edt_txt_buzzer_time.getText().toString();
+
+                if(buzzer_time.length()==0){
+                    edt_txt_buzzer_time.requestFocus();
+                    edt_txt_buzzer_time.setError("Please enter valid time");
+                }
+                else
+                {
+                    int n = Integer.parseInt(buzzer_time);
+
+                    if(n >= 0 && n <= 5)
+                    {
+                        edt_txt_buzzer_time.requestFocus();
+                        edt_txt_buzzer_time.setError("Time must be Greater than 5");
+                    }
+                    else
+                    {
+                        String message = "B,"+buzzer_time+"\r\n";
+                        byte[] bytes = message.getBytes(Charset.defaultCharset());
+                        mChatService.write(bytes);
+                        edt_txt_buzzer_time.setText("");
+                    }
+                }
             }
         });
     }
@@ -320,15 +409,15 @@ public class MainActivity extends Activity {
                     byte[] readBuf = (byte[]) msg.obj;
                     // construct a string from the valid bytes in the buffer
                     String readMessage = new String(readBuf, 0, msg.arg1);
-                    if(readMessage.compareToIgnoreCase("FINISH")==0 || readMessage.compareToIgnoreCase("FINISH\r\n")==0)
+                    if(readMessage.compareToIgnoreCase("FINISH\r")==0 || readMessage.compareToIgnoreCase("FINISH\r\n")==0 || readMessage.compareToIgnoreCase("FINISH")==0)
                     {
                         send_height_width.setEnabled(true);
                         glass_start.setEnabled(true);
-                        messageList.clear();
                         mAdapter.notifyDataSetChanged();
+                        mRecyclerView.smoothScrollToPosition(mAdapter.getItemCount());
+                        messageList.add(new androidRecyclerView.Message(counter++, readMessage, mConnectedDeviceName));
                         break;
                     }
-                    readMessage+="\n";
                     mAdapter.notifyDataSetChanged();
                     mRecyclerView.smoothScrollToPosition(mAdapter.getItemCount());
                     messageList.add(new androidRecyclerView.Message(counter++, readMessage, mConnectedDeviceName));
