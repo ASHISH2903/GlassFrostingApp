@@ -53,8 +53,7 @@ public class MainActivity extends Activity {
     private static final int REQUEST_CONNECT_DEVICE = 1;
     private static final int REQUEST_ENABLE_BT = 2;
     private EditText mOutEditText;
-    private Button mSendButton,glass_clear,glass_resume,glass_stop,send_buzzer_time;
-    private TextView scan_connect;
+    private Button mSendButton,glass_clear,glass_resume,glass_stop,send_buzzer_time,status_connected;
 
     // Name of the connected device
     private String mConnectedDeviceName = null;
@@ -106,7 +105,7 @@ public class MainActivity extends Activity {
         edt_txt_buzzer_time = (EditText) findViewById(R.id.edt_txt_buzzer_time);
         send_buzzer_time = (Button) findViewById(R.id.send_buzzer_time);
 
-        scan_connect = (TextView) findViewById(R.id.status_connected);
+        status_connected = (Button) findViewById(R.id.status_connected);
         // If the adapter is null, then Bluetooth is not supported
         if (mBluetoothAdapter == null) {
             Toast.makeText(this, "Bluetooth is not available", Toast.LENGTH_LONG).show();
@@ -192,8 +191,6 @@ public class MainActivity extends Activity {
                     edt_txt_height.setText("");
                     edt_txt_width.setText("");
                 }
-
-
             }
         });
 
@@ -303,11 +300,11 @@ public class MainActivity extends Activity {
                 else
                 {
                     int n = Integer.parseInt(buzzer_time);
-
                     if(n >= 0 && n <= 5)
                     {
                         edt_txt_buzzer_time.requestFocus();
                         edt_txt_buzzer_time.setError("Time must be Greater than 5");
+                        edt_txt_buzzer_time.setText("");
                     }
                     else
                     {
@@ -439,6 +436,7 @@ public class MainActivity extends Activity {
                     byte[] readBuf = (byte[]) msg.obj;
                     // construct a string from the valid bytes in the buffer
                     String readMessage = new String(readBuf, 0, msg.arg1);
+                    readMessage+="\n";
                     if(readMessage.compareToIgnoreCase("FINISH\r")==0 || readMessage.compareToIgnoreCase("FINISH\r\n")==0 || readMessage.compareToIgnoreCase("FINISH")==0)
                     {
                         send_height_width.setEnabled(true);
@@ -454,6 +452,7 @@ public class MainActivity extends Activity {
                     break;
                 case MESSAGE_DEVICE_NAME:
                     // save the connected device's name
+                    status_connected.setBackgroundDrawable(getResources().getDrawable(R.drawable.connection_on));
                     mConnectedDeviceName = msg.getData().getString(DEVICE_NAME);
                     Toast.makeText(getApplicationContext(), "Connected to "
                             + mConnectedDeviceName, Toast.LENGTH_SHORT).show();
@@ -463,14 +462,12 @@ public class MainActivity extends Activity {
                             Toast.LENGTH_SHORT).show();
                     break;
                 case CONNECTION_FAIL:
-                    scan_connect.setText("Not Connected");
-                    scan_connect.setTextColor(Color.BLACK);
+                    status_connected.setBackgroundDrawable(getResources().getDrawable(R.drawable.connection_off));
                     Toast.makeText(getApplicationContext(), msg.getData().getString(TOAST),
                             Toast.LENGTH_SHORT).show();
                     break;
                 case CONNECTION_SUCCESS:
-                    scan_connect.setText("Connected");
-                    scan_connect.setTextColor(Color.GREEN);
+                    status_connected.setBackgroundDrawable(getResources().getDrawable(R.drawable.connection_on));
                     break;
             }
         }

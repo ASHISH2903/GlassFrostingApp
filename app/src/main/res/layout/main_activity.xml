@@ -15,17 +15,33 @@
         android:textSize="25sp"
         android:textStyle="bold" />
 
-    <TextView
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/status_connected"
-        android:layout_marginTop="10dp"
-        android:gravity="end"
-        android:text="Not Connected"
-        android:paddingRight="30dp"
-        android:textColor="@android:color/black"
-        android:textSize="15sp"
-        android:textStyle="bold" />
+        android:layout_marginTop="20dp"
+        android:orientation="horizontal"
+        android:gravity="end">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="Connection Status:"
+            android:textColor="@android:color/black"
+            android:textStyle="bold" />
+        <View
+            android:layout_width="7dp"
+            android:layout_height="1dp"/>
+
+        <Button
+            android:layout_width = "15dp"
+            android:layout_height = "15dp"
+            android:id="@+id/status_connected"
+            android:layout_gravity="center"
+            android:layout_marginRight="30dp"
+            android:background="@drawable/connection_off"/>
+
+    </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -46,7 +62,7 @@
             android:textSize="15sp" />
 
         <View
-            android:layout_width="7dp"
+            android:layout_width="4dp"
             android:layout_height="1dp"/>
 
         <Button
@@ -58,13 +74,11 @@
             android:text="DISCOVERABLE"
             style="@style/BlueButton"
             android:textSize="15sp"/>
-        <View
-            android:layout_width="7dp"
-            android:layout_height="1dp"/>
 
         <View
-            android:layout_width="7dp"
+            android:layout_width="4dp"
             android:layout_height="1dp"/>
+
 
     </LinearLayout>
 
