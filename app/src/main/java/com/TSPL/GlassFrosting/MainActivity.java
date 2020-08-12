@@ -137,8 +137,6 @@ public class MainActivity extends Activity {
                     String message = "H," + height + ":W," + width +":\r\n";
                     byte[] bytes = message.getBytes(Charset.defaultCharset());
                     mChatService.write(bytes);
-                    edt_txt_width.setText("");
-                    edt_txt_height.setText("");
                 }
             }
         });
@@ -146,28 +144,56 @@ public class MainActivity extends Activity {
         glass_start.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String message = "START\r\n";
-                byte[] bytes = message.getBytes(Charset.defaultCharset());
-                mChatService.write(bytes);
-                glass_stop.setEnabled(true);
-                glass_stop.setTextColor(Color.YELLOW);
-                glass_stop.setBackgroundDrawable(getResources().getDrawable(R.drawable.buttonshape));
 
-                send_height_width.setEnabled(false);
-                send_height_width.setTextColor(Color.BLACK);
-                send_height_width.setBackgroundDrawable(getResources().getDrawable(R.drawable.off));
+                String height,width;
+                height = edt_txt_height.getText().toString();
+                width = edt_txt_width.getText().toString();
 
-                glass_reset.setEnabled(false);
-                glass_reset.setTextColor(Color.BLACK);
-                glass_reset.setBackgroundDrawable(getResources().getDrawable(R.drawable.off));
+                if(height.length()==0){
+                    edt_txt_height.requestFocus();
+                    edt_txt_height.setError("Please enter Height");
+                }
 
-                glass_start.setEnabled(false);
-                glass_start.setTextColor(Color.BLACK);
-                glass_start.setBackgroundDrawable(getResources().getDrawable(R.drawable.off));
+                else if(width.length()==0)
+                {
+                    edt_txt_width.requestFocus();
+                    edt_txt_width.setError("Please enter Width");
+                }
 
-                glass_resume.setEnabled(false);
-                glass_resume.setTextColor(Color.BLACK);
-                glass_resume.setBackgroundDrawable(getResources().getDrawable(R.drawable.off));
+                else
+                {
+                    String message = "START\r\n";
+                    byte[] bytes = message.getBytes(Charset.defaultCharset());
+                    mChatService.write(bytes);
+                    glass_stop.setEnabled(true);
+                    glass_stop.setTextColor(Color.YELLOW);
+                    glass_stop.setBackgroundDrawable(getResources().getDrawable(R.drawable.buttonshape));
+
+                    send_buzzer_time.setEnabled(false);
+                    send_buzzer_time.setTextColor(Color.BLACK);
+                    send_buzzer_time.setBackgroundDrawable(getResources().getDrawable(R.drawable.off));
+
+                    send_height_width.setEnabled(false);
+                    send_height_width.setTextColor(Color.BLACK);
+                    send_height_width.setBackgroundDrawable(getResources().getDrawable(R.drawable.off));
+
+                    glass_reset.setEnabled(false);
+                    glass_reset.setTextColor(Color.BLACK);
+                    glass_reset.setBackgroundDrawable(getResources().getDrawable(R.drawable.off));
+
+                    glass_start.setEnabled(false);
+                    glass_start.setTextColor(Color.BLACK);
+                    glass_start.setBackgroundDrawable(getResources().getDrawable(R.drawable.off));
+
+                    glass_resume.setEnabled(false);
+                    glass_resume.setTextColor(Color.BLACK);
+                    glass_resume.setBackgroundDrawable(getResources().getDrawable(R.drawable.off));
+
+                    edt_txt_height.setText("");
+                    edt_txt_width.setText("");
+                }
+
+
             }
         });
 
@@ -236,6 +262,10 @@ public class MainActivity extends Activity {
                 glass_resume.setEnabled(true);
                 glass_resume.setTextColor(Color.BLACK);
                 glass_resume.setBackgroundDrawable(getResources().getDrawable(R.drawable.on));
+
+                send_buzzer_time.setEnabled(true);
+                send_buzzer_time.setTextColor(Color.BLACK);
+                send_buzzer_time.setBackgroundDrawable(getResources().getDrawable(R.drawable.on));
 
                 glass_stop.setEnabled(false);
                 glass_stop.setTextColor(Color.YELLOW);

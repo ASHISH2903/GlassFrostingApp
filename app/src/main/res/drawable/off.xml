@@ -8,9 +8,9 @@
         android:angle="90"
         android:centerX="35%"
         android:centerY="50%"
-        android:centerColor="#9FC4A2"
-        android:startColor="#9FC4A2"
-        android:endColor="#9FC4A2"
+        android:centerColor="#ACC4B0"
+        android:startColor="#ACC4B0"
+        android:endColor="#ACC4B0"
         android:type="radial"
         />
     <padding
@@ -25,6 +25,6 @@
         />
     <stroke
         android:width="3dp"
-        android:color="#9FC4A2"
+        android:color="#ACC4B0"
         />
 </shape>
