@@ -1,6 +1,6 @@
 <resources>
-    <string name="app_name">GlassFrostingApp</string>
-    <string name="toolbarTitle">Glass Frosting App</string>
+    <string name="app_name">TimerRelayApp</string>
+    <string name="toolbarTitle">TIMER RELAY APP</string>
     <string name="openbt">Open Bluetooth</string>
     <string name="makeVisible">Make Bluetooth Visible</string>
     <string name="findDevices">Find Devices</string>

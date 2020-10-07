@@ -1,4 +1,4 @@
-package com.TSPL.GlassFrosting;
+package com.TSPL.timerrelay;
 
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
